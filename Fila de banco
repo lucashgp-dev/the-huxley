@@ -1,0 +1,81 @@
+import java.io.*;
+import java.util.*;
+
+public class HuxleyCode {
+    public static void main(String args[]) {
+
+        Scanner sc = new Scanner(System.in);
+
+        int tam1 = sc.nextInt();
+        int tam2 = sc.nextInt();
+        int fila = sc.nextInt();
+
+        int[] vetor1 = new int[tam1];
+        int[] vetor2 = new int[tam2];
+        int tam3 = vetor1.length + vetor2.length;
+        int[] vetorFinal = new int[tam1 + tam2];
+
+        for (int i = 0; i < vetor1.length; i++) {
+
+            vetor1[i] = sc.nextInt();
+
+        }
+
+        for (int i = 0; i < vetor2.length; i++) {
+
+            vetor2[i] = sc.nextInt();
+
+        }
+
+        if (fila == 1) {
+            intercalaVetor(vetor2, tam2, vetor1, tam1, vetorFinal, tam3);
+
+        } else if (fila == 2) {
+            intercalaVetor(vetor1, tam1, vetor2, tam2, vetorFinal, tam3);
+        }
+
+        printarVetor(vetorFinal);
+
+    }
+
+    public static void intercalaVetor(int[] vetor1, int tam1, int[] vetor2, int tam2, int[] vetorFinal, int tamFinal) {
+        int j = 0;
+        int i = 0;
+
+        for (i = 0; i < tamFinal && j < tam1 && j < tam2; i += 2) {
+
+            vetorFinal[i] = vetor1[j];
+            vetorFinal[i + 1] = vetor2[j];
+            j++;
+
+        }
+        i = 0;
+        j = 0;
+
+        if (tam1 < tam2) {
+
+            for (i = tam1, j = tam1 * 2; j < tamFinal; j++, i++) {
+
+                vetorFinal[j] = vetor2[i];
+
+            }
+        } else if (tam2 < tam1) {
+
+            for (i = tam2, j = tam2 * 2; j < tamFinal; j++, i++) {
+
+                vetorFinal[j] = vetor1[i];
+
+            }
+        }
+    }
+
+    public static void printarVetor(int[] vetor) {
+
+        for (int i = 0; i < vetor.length; i++) {
+
+            System.out.println(vetor[i]);
+
+        }
+
+    }
+}
