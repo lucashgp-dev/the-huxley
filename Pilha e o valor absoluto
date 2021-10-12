@@ -1,0 +1,113 @@
+import java.util.Scanner;
+
+public class HuxleyCode {
+  public static void main(String[] args) {
+
+    HuxleyCode pilha = new HuxleyCode();
+
+    Scanner entrada = new Scanner(System.in);
+
+    while (entrada.hasNextLine()) {
+      String opc = entrada.nextLine();
+      String [] op = opc.split(" ");
+
+      if (op[0].equals("push")) {
+        pilha.push(Integer.parseInt(op[1]));
+      } else if (op[0].equals("pop")) {
+        if (pilha.posicao != 0) {
+          System.out.println(pilha.pop());
+        }
+      } else if (op[0].equals("abs")) {
+        if (pilha.posicao != 0) {
+          System.out.println(pilha.abs());
+        }
+      } else if (op[0].equals("exit")) {
+        entrada.close();
+      }
+
+    }
+
+  }
+
+  int posicao;
+  int [] pilha;
+
+  public HuxleyCode() {
+    this.posicao = 0;
+    this.pilha = new int[1];
+
+  }
+
+  public void push(int element) {
+    if (this.posicao == 0) {
+      this.pilha[this.posicao] = element;
+      this.posicao++;
+    } else {
+      int [] aux_pilha = new int[this.pilha.length+1];
+
+      aux_pilha[0] = element;
+
+      for (int i = 0; i < this.pilha.length; i++) {
+        aux_pilha[i+1] = this.pilha[i];
+      }
+
+      this.posicao++;
+      this.pilha = aux_pilha;
+    }
+  }
+
+  public int pop() {
+    int element = 0;
+
+    if (!(this.pilha.length == 1)) {
+      int [] aux_pilha = new int[this.pilha.length-1];
+
+      for (int i = 0; i < aux_pilha.length; i++) {
+        aux_pilha[i] = this.pilha[i+1];
+      }
+
+      element = this.pilha[0];
+
+      this.pilha = aux_pilha;
+      this.posicao--;
+    } else {
+      element = this.pilha[0];
+      this.pilha[0] = 0;
+      this.posicao--;
+    }
+
+    return element;
+  }
+
+  public int abs() {
+    if (this.posicao > 0) {
+      return Math.abs(this.max() - this.min());
+    }
+    return Math.abs(this.pilha[0]);
+  }
+
+  public int max() {
+    int aux = this.pilha[0];
+    if (this.posicao > 0) {
+      for (int i = 1; i < this.pilha.length; i++) {
+        if (this.pilha[i] > aux) {
+          aux = this.pilha[i];
+        }
+      }
+    }
+    return aux;
+  }
+
+  public int min() {
+    int aux = this.pilha[0];
+    if (this.posicao > 0) {
+      for (int i = 1; i < this.pilha.length; i++) {
+        if (this.pilha[i] < aux) {
+          aux = this.pilha[i];
+        }
+      }
+    }
+    return aux;
+  }
+
+}
