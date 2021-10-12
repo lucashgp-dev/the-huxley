@@ -1,0 +1,88 @@
+import java.io.*;
+import java.util.*;
+
+public class HuxleyCode {
+	public static void main(String[] args) {
+
+		Scanner sc = new Scanner(System.in);
+		String vet1 = sc.nextLine();
+		String vet2 = sc.nextLine();
+
+		int[] vetorEntrada1 = converteForInt(vet1.split(" "));
+		int[] vetorEntrada2 = converteForInt(vet2.split(" "));
+
+		boolean vect_verific = verificar_ordem(vetorEntrada1);
+		boolean vect_verific2 = verificar_ordem(vetorEntrada2);
+		if (vect_verific == false || vect_verific2 == false) {
+			System.out.println(-1);
+		} else {
+			vetorEntrada1 = ordernar(vetorEntrada1);
+			vetorEntrada2 = ordernar(vetorEntrada2);
+			int[] vect_intercaled = intercalation(vetorEntrada1, vetorEntrada2);
+			printSaida(vect_intercaled);
+		}
+
+		sc.close();
+	}
+
+	public static int[] converteForInt(String[] word) {
+		int vect_numeros[] = new int[word.length];
+		for (int i = 0; i < word.length; i++) {
+			vect_numeros[i] = Integer.parseInt(word[i]);
+		}
+		return vect_numeros;
+	}
+
+	public static int[] intercalation(int[] vect, int[] vect2) {
+
+		int tamanho = (vect.length + vect2.length);
+		int[] vect_intercaled = new int[tamanho];
+		preencher(vect_intercaled, 0, vect, vect.length);
+		preencher(vect_intercaled, vect.length, vect2, vect_intercaled.length);
+		int[] vect_intercaled2 = ordernar(vect_intercaled);
+		return vect_intercaled2;
+	}
+
+	public static void preencher(int[] vect, int position, int[] vect_preencher, int limite_final) {
+		int cont_vect_preencher = 0;
+		for (int indice = position; indice < limite_final; indice++) {
+			vect[indice] = vect_preencher[cont_vect_preencher];
+			cont_vect_preencher++;
+		}
+
+	}
+
+	public static int[] ordernar(int[] vect) {
+		for (int i = 1; i < vect.length; i++) {
+			for (int j = 1; j < vect.length; j++) {
+				if (vect[j - 1] > vect[j]) {
+					int aux = vect[j - 1];
+					vect[j - 1] = vect[j];
+					vect[j] = aux;
+				}
+			}
+		}
+		return vect;
+	}
+
+	public static boolean verificar_ordem(int[] vect) {
+		int[] vect_ordened = ordernar(vect.clone());
+		for (int i = 0; i < vect.length; i++) {
+			if (vect[i] != vect_ordened[i]) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public static void printSaida(int[] saida) {
+		for (int i = 0; i < saida.length; i++) {
+			System.out.print(saida[i]);
+			if (i == saida.length) {
+				continue;
+			} else {
+				System.out.print(" ");
+			}
+		}
+	}
+}
