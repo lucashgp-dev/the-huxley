@@ -1,0 +1,114 @@
+import java.io.*;
+import java.util.*;
+
+public class HuxleyCode {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        sc.nextLine();
+
+        String inteiros = " ";
+
+        for (int i = 0; i < n; i++) {
+
+            inteiros = sc.nextLine();
+
+            String[] numeros = inteiros.split(" ");
+
+            int tam = numeros.length;
+
+            int[] vetor = new int[tam];
+
+            for (int j = 0; j < numeros.length; j++) {
+
+                vetor[j] = Integer.parseInt(numeros[j]);
+            }
+
+            mergeSort(vetor.length, vetor);
+            printarVetor(vetor);
+        }
+    }
+
+    private static void mergeSort(int tamanho, int[] vetor) {
+
+        int elementos = 1;
+        int inicio, meio, fim;
+
+        while (elementos < tamanho) {
+
+            inicio = 0;
+
+            while (inicio + elementos < tamanho) {
+
+                meio = inicio + elementos;
+
+                fim = inicio + 2 * elementos;
+
+                if (fim > tamanho)
+                    fim = tamanho;
+
+                intercala(vetor, inicio, meio, fim);
+
+                inicio = fim;
+            }
+
+            elementos = elementos * 2;
+        }
+    }
+
+    private static void intercala(int[] vetor, int inicio, int meio, int fim) {
+
+        int novoVetor[] = new int[fim - inicio];
+
+        int i = inicio;
+
+        int m = meio;
+
+        int pos = 0;
+
+        while (i < meio && m < fim) {
+
+            if (vetor[i] <= vetor[m]) {
+                novoVetor[pos] = vetor[i];
+                pos = pos + 1;
+                i = i + 1;
+
+            } else {
+                novoVetor[pos] = vetor[m];
+                pos = pos + 1;
+                m = m + 1;
+            }
+        }
+
+        while (i < meio) {
+            novoVetor[pos] = vetor[i];
+            pos = pos + 1;
+            i = i + 1;
+        }
+
+        while (m < fim) {
+            novoVetor[pos] = vetor[m];
+            pos = pos + 1;
+            m = m + 1;
+        }
+
+        for (pos = 0, i = inicio; i < fim; i++, pos++) {
+            vetor[i] = novoVetor[pos];
+        }
+    }
+
+    public static void printarVetor(int[] vetor) {
+
+        for (int i = 0; i < vetor.length; i++) {
+
+            if (i == vetor.length - 1) {
+                System.out.printf("%d", vetor[i]);
+            } else {
+                System.out.printf("%d ", vetor[i]);
+            }
+
+        }
+        System.out.println();
+    }
+}
