@@ -1,0 +1,138 @@
+import java.io.*;
+import java.util.*;
+
+public class HuxleyCode {
+
+    private Pessoa elementos[];
+    private int primeiro;
+    private int ultimo;
+    private int total;
+
+    public static void main(String[] args) {
+        HuxleyCode f1 = new HuxleyCode();
+        HuxleyCode f2 = new HuxleyCode();
+        ArrayList<String> dados = new ArrayList();
+        int prioridade;
+        Scanner sc = new Scanner(System.in);
+
+        String entrada;
+
+        prioridade = sc.nextInt();
+        entrada = sc.nextLine();
+
+        while (!entrada.equals("f")) {
+
+            dados.add(entrada);
+            entrada = sc.nextLine();
+        }
+
+        String dadosAux[] = new String[dados.size()];
+        int i = 0;
+        for (String string : dados) {
+            dadosAux[i] = string;
+            i++;
+        }
+
+        int cont = prioridade;
+
+        for (int j = 0; j < dadosAux.length; j++) {
+
+            if (dadosAux[j].contains("a")) {
+                String aux[] = dadosAux[j + 1].split(" ");
+                int e = Integer.parseInt(aux[1]);
+                if (e > 60)
+                    f1.inserir(new Pessoa(aux[0], e));
+                else
+                    f2.inserir(new Pessoa(aux[0], e));
+            }
+            if (dadosAux[j].contains("r")) {
+                if (cont != 0 && !f1.isEmpty()) {
+                    f1.retirar();
+                    cont--;
+                } else {
+                    f2.retirar();
+                    cont = prioridade;
+                }
+            }
+            if (dadosAux[j].contains("i")) {
+                System.out.println();
+                System.out.println("fila de idosos:");
+                imprimir(f1);
+                System.out.println("fila de nao-idosos:");
+                imprimir(f2);
+                System.out.println("----------");
+            }
+        }
+        sc.close();
+    }
+
+    public HuxleyCode() {
+        this.elementos = new Pessoa[200];
+        this.primeiro = 0;
+        this.ultimo = 0;
+        this.total = 0;
+    }
+
+    public void inserir(Pessoa elemento) {
+
+        elementos[ultimo] = elemento;
+        ultimo = (ultimo + 1) % elementos.length;
+        total++;
+    }
+
+    public Pessoa retirar() {
+
+        if (isEmpty()) {
+            return null;
+        }
+
+        Pessoa elemento = elementos[primeiro];
+        primeiro = (primeiro + 1) % elementos.length;
+        total--;
+        return elemento;
+    }
+
+    public boolean isEmpty() {
+        return total == 0;
+    }
+
+    public boolean isFull() {
+        return total == elementos.length;
+    }
+
+    public static void imprimir(HuxleyCode p) {
+
+        if (p.isEmpty()) {
+            System.out.println("fila vazia!");
+            return;
+        }
+
+        int valor = p.total;
+        Pessoa valores[] = new Pessoa[valor];
+
+        for (int i = 0; i < valor; i++) {
+            valores[i] = p.retirar();
+        }
+
+        for (int i = 0; i < valor; i++) {
+            System.out.println(valores[i]);
+            p.inserir(valores[i]);
+        }
+    }
+
+    public static class Pessoa {
+        private String id;
+        private int idade;
+
+        public Pessoa(String id, int idade) {
+            this.id = id;
+            this.idade = idade;
+        }
+
+        @Override
+        public String toString() {
+            return "ID: " + this.id + " IDADE: " + this.idade;
+        }
+    }
+
+}
