@@ -1,0 +1,118 @@
+import java.io.*;
+import java.util.*;
+
+public class HuxleyCode {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		while (sc.hasNext()) {
+			String txtNumeros = sc.nextLine();
+			String[] arrayTxtNumeros = txtNumeros.split(" ");
+			int[] numeros = convertInt(arrayTxtNumeros);
+			partition(numeros, 0, numeros.length - 1);
+			printSaida(numeros);
+		}
+
+		sc.close();
+	}
+
+	public static void partition(int[] lista, int inicio, int fim) {
+	    
+		int numeroMaior = getMaior(lista);
+		int numeroMenor = getMenor(lista);
+		int candidatoPivot = (numeroMaior + numeroMenor) / 2;
+
+		int indicePivot = verificar(lista, candidatoPivot);
+
+		trocar(lista, indicePivot, fim);
+
+		System.out.println(lista[fim]);
+
+		int pivo = lista[fim];
+		int i = inicio;
+		for (int j = inicio; j < fim; j++) {
+			if (lista[j] <= pivo) {
+				int aux = lista[j];
+				lista[j] = lista[i];
+				lista[i] = aux;
+				i++;
+			}
+		}
+		int aux = lista[i];
+		lista[i] = lista[fim];
+		lista[fim] = aux;
+
+	}
+
+	public static int verificar(int[] list, int candidatoPivot) {
+		int menor = getMaior(list);
+		int indice = 0;
+		for (int i = 0; i < list.length; i++) {
+			if (list[i] == candidatoPivot) {
+				return i;
+			} else if (candidatoPivot > list[i]) {
+
+				int diferenca = candidatoPivot - list[i];
+				if (diferenca < menor) {
+					menor = diferenca;
+					indice = i;
+				}
+			} else if (list[i] > candidatoPivot) {
+				int diferenca = list[i] - candidatoPivot;
+				if (diferenca < menor) {
+					menor = diferenca;
+					indice = i;
+				}
+
+			}
+
+		}
+		return indice;
+	}
+
+	public static int getMaior(int[] list) {
+		int maior = 0;
+		for (int indice = 0; indice < list.length; indice++) {
+			if (list[indice] > maior) {
+				maior = list[indice];
+			}
+		}
+		return maior;
+	}
+
+	public static int getMenor(int[] list) {
+		int menor = list[0];
+		for (int indice = 0; indice < list.length; indice++) {
+			if (list[indice] < menor) {
+				menor = list[indice];
+			}
+		}
+		return menor;
+	}
+
+	public static void trocar(int[] list, int indiceMediana, int fim) { // troca os a mediana para a ultima position
+		int aux = list[fim];
+		list[fim] = list[indiceMediana];
+		list[indiceMediana] = aux;
+	}
+
+	public static int[] convertInt(String[] word) {
+		int vect_numeros[] = new int[word.length];
+		for (int i = 0; i < word.length; i++) {
+			vect_numeros[i] = Integer.parseInt(word[i]);
+		}
+		return vect_numeros;
+	}
+
+	public static void printSaida(int[] saida) {
+		for (int i = 0; i < saida.length; i++) {
+			System.out.print(saida[i]);
+			if (i == saida.length) {
+				continue;
+			} else {
+				System.out.print(" ");
+			}
+		}
+	}
+
+}
