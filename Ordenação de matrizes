@@ -1,0 +1,53 @@
+import java.io.*;
+import java.util.*;
+
+public class HuxleyCode {
+    public static void main(String args[]) {
+
+        Scanner sc = new Scanner(System.in);
+
+        int m, n;
+        m = sc.nextInt();
+        n = sc.nextInt();
+
+        if ((1 <= m && m <= 10) && (1 <= n && n <= 10)) {
+            int[][] matriz = new int[m][n];
+
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
+                    matriz[i][j] = sc.nextInt();
+                }
+            }
+
+            int aux = 0;
+
+            for (int x = 0; x < matriz.length; x++) {
+                for (int z = 0; z < matriz[x].length; z++) {
+                    int col = z;
+                    for (int i = x; i < matriz.length; i++) {
+                        for (int j = col + 1; j < matriz[i].length; j++) {
+                            if (matriz[x][z] > matriz[i][j]) {
+                                aux = matriz[x][z];
+                                matriz[x][z] = matriz[i][j];
+                                matriz[i][j] = aux;
+                            }
+                        }
+                        col = -1;
+                    }
+                }
+            }
+
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (j + 1 == n) {
+                        System.out.printf("%d", matriz[i][j]);
+                    } else {
+                        System.out.printf("%d ", matriz[i][j]);
+                    }
+                }
+                System.out.printf("\n");
+            }
+        }
+
+    }
+}
