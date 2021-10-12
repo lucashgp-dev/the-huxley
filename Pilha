@@ -1,0 +1,77 @@
+import java.io.*;
+import java.util.*;
+
+public class HuxleyCode {
+
+   static final int MAX = 1000;
+   int top;
+   int a[] = new int[1000]; // Define tamanho m�ximo da pilha
+
+   // Construtor
+   HuxleyCode() {
+      top = -1;
+   }
+
+   // M�todos da pilha
+   boolean isEmpty() {
+      return (top < 0);
+   }
+
+   boolean push(int x) {
+      if (top >= (MAX - 1)) {
+
+         return false;
+      } else {
+         a[++top] = x;
+         return true;
+      }
+   }
+
+   int pop() {
+      if (top < 0) {
+
+         return 0;
+      } else {
+         int x = a[top--];
+         return x;
+      }
+   }
+
+   void print() {
+
+      for (int i = top; i >= 0; i--) {
+
+         if (i != 0) {
+            System.out.printf("%d ", a[i]);
+         } else {
+            System.out.printf("%d", a[i]);
+         }
+      }
+      System.out.printf("\n");
+
+   }
+
+   public static void main(String args[]) {
+
+      HuxleyCode pilha = new HuxleyCode();
+
+      Scanner entrada = new Scanner(System.in);
+
+      while (entrada.hasNextLine()) {
+         String opc = entrada.nextLine();
+         String[] op = opc.split(" ");
+
+         if (op[0].equals("Empilhar")) {
+            pilha.push(Integer.parseInt(op[1]));
+         } else if (op[0].equals("Desempilhar")) {
+            pilha.pop();
+
+         } else if (op[0].equals("Imprimir")) {
+            pilha.print();
+         } else if (op[0].equals("Finalizar")) {
+            break;
+         }
+      }
+
+   }
+}
