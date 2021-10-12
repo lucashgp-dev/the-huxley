@@ -1,0 +1,64 @@
+import java.io.*;
+import java.util.*;
+
+public class HuxleyCode {
+    public static void main(String args[]) {
+
+        Scanner sc = new Scanner(System.in);
+
+        int tam = sc.nextInt();
+
+        int[] vetor = new int[tam];
+
+        int ordem = sc.nextInt();
+
+        for (int i = 0; i < vetor.length; i++) {
+
+            vetor[i] = sc.nextInt();
+
+        }
+
+        bubblesort(vetor, tam, ordem);
+
+    }
+
+    public static void bubblesort(int[] vetor, int n, int ordem) {
+
+        boolean troca = true;
+
+        while (troca == true && ordem > 0) {
+            troca = false;
+
+            for (int i = 0; i < n - 1; i++) {
+
+                if (vetor[i] > vetor[i + 1]) {
+                    int aux = vetor[i];
+                    vetor[i] = vetor[i + 1];
+                    vetor[i + 1] = aux;
+                    troca = true;
+                }
+
+            }
+            printarVetor(vetor);
+            ordem--;
+        }
+
+    }
+
+    public static void printarVetor(int[] vetor) {
+
+        System.out.print("[");
+
+        for (int i = 0; i < vetor.length; i++) {
+
+            if (i == vetor.length - 1) {
+                System.out.printf("%d", vetor[i]);
+            } else {
+                System.out.printf("%d", vetor[i]);
+                System.out.print(", ");
+            }
+
+        }
+        System.out.print("]\n");
+    }
+}
